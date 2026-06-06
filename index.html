@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -898,10 +897,7 @@
   function openMobile() { document.getElementById('mobileNav').classList.add('open'); }
   function closeMobile() { document.getElementById('mobileNav').classList.remove('open'); }
 
-  // Initialize EmailJS
-  emailjs.init('WyhXowMPNcrhrxj8O');
-  
-  // Contact form � sends to chopraaryan239@gmail.com
+  // Contact form — sends to chopraaryan239@gmail.com
   function submitForm(btn) {
     const fname   = document.getElementById('cf-fname').value.trim();
     const lname   = document.getElementById('cf-lname').value.trim();
@@ -909,8 +905,8 @@
     const subject = document.getElementById('cf-subject').value;
     const message = document.getElementById('cf-message').value.trim();
     const errBox  = document.getElementById('cf-error');
+
     errBox.style.display = 'none';
-    
     if (!fname) {
       errBox.textContent = 'Please enter your first name.';
       errBox.style.display = 'block';
@@ -930,52 +926,35 @@
       document.getElementById('cf-message').focus();
       return;
     }
-    
+
+    const fullName    = lname ? fname + ' ' + lname : fname;
+    const subjectLine = '[All in One TV] ' + subject + ' from ' + fullName;
+    const body =
+      'Hello,\n\nYou have a new message from the All in One TV website.\n' +
+      '────────────────────────────\n' +
+      'Name:    ' + fullName + '\n' +
+      'Email:   ' + email + '\n' +
+      'Subject: ' + subject + '\n' +
+      '────────────────────────────\n\n' +
+      message + '\n\n' +
+      '────────────────────────────\n' +
+      'Sent via allinonetv.com contact form';
+
+    window.location.href =
+      'mailto:chopraaryan239@gmail.com' +
+      '?subject=' + encodeURIComponent(subjectLine) +
+      '&body=' + encodeURIComponent(body);
+
     const orig = btn.textContent;
-    btn.textContent = 'Sending...';
+    btn.textContent = '\u2713 Opening Email App…';
+    btn.style.background = '#2d6a3f';
     btn.disabled = true;
-    
-    const fullName = lname ? fname + ' ' + lname : fname;
-    
-    const templateParams = {
-      from_name: fullName,
-      from_email: email,
-      subject: subject,
-      message: message
-    };
-    
-    emailjs.send('service_dgqyeoa', 'service_dgqyeoa', templateParams)
-      .then(function(response) {
-        errBox.style.display = 'block';
-        errBox.textContent = '? Message sent successfully! We''ll get back to you soon.';
-        errBox.style.color = '#2d6a3f';
-        errBox.style.background = '#e8f5e9';
-        errBox.style.borderRadius = '6px';
-        errBox.style.padding = '12px';
-        
-        document.getElementById('cf-fname').value = '';
-        document.getElementById('cf-lname').value = '';
-        document.getElementById('cf-email').value = '';
-        document.getElementById('cf-subject').value = 'General Inquiry';
-        document.getElementById('cf-message').value = '';
-        
-        btn.textContent = orig;
-        btn.disabled = false;
-      }, function(error) {
-        errBox.style.display = 'block';
-        errBox.textContent = 'Failed to send message. Please try again.';
-        errBox.style.color = '#c62828';
-        errBox.style.background = '#ffebee';
-        errBox.style.borderRadius = '6px';
-        errBox.style.padding = '12px';
-        
-        btn.textContent = orig;
-        btn.disabled = false;
-      });
-  }, 4000);
+    setTimeout(function() {
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 4000);
   }
 </script>
 </body>
 </html>
-
-
