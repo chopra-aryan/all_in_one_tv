@@ -120,12 +120,6 @@
     .trial-option:hover { border-color: var(--gold); background: var(--gold-pale); transform: translateY(-1px); }
     .trial-note { font-size: 13px; color: var(--gold); font-weight: 700; margin-top: 6px; }
     .trial-note.small { color: var(--text-muted); font-weight: 600; }
-    .mobile-close {
-      position: absolute; top: 24px; right: 32px;
-      font-size: 28px; background: none; border: none;
-      cursor: pointer; color: var(--charcoal); font-family: 'Lato', sans-serif;
-    }
-
     /* ── HERO ── */
     #home {
       min-height: 100vh; position: relative; overflow: hidden;
@@ -510,8 +504,7 @@
 <body>
 
 <!-- ═══ MOBILE NAV ═══ -->
-<div class="mobile-nav" id="mobileNav">
-  <button class="mobile-close" onclick="closeMobile()" aria-label="Close menu">✕</button>
+<div class="mobile-nav" id="mobileNav" onclick="if (event.target === this) closeMobile();">
   <a href="#home" onclick="closeMobile()">Home</a>
   <a href="#pricing" onclick="closeMobile()">Pricing</a>
   <a href="#about" onclick="closeMobile()">About Us</a>
